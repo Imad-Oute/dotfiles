@@ -64,6 +64,10 @@ link "$DOTFILES/.config/waybar/user-style.css" "$CFG/waybar/user-style.css"
 hdr "Kitty"
 link "$DOTFILES/.config/kitty/kitty.conf" "$CFG/kitty/kitty.conf"
 
+# ── Editor ─────────────────────────────────────────────────────────────────
+hdr "Neovim"
+link "$DOTFILES/.config/nvim"             "$CFG/nvim"
+
 # ── Shell ──────────────────────────────────────────────────────────────────
 hdr "Shell + Prompt"
 link "$DOTFILES/home/.zshrc"             "$HOME/.zshrc"

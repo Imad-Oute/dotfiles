@@ -11,7 +11,7 @@ Personal Arch Linux rice — Hyprland + HyDE, built for an AI/cybersecurity work
 | Terminal | Kitty |
 | Shell | Zsh + Oh My Zsh + Starship |
 | Multiplexer | Tmux + TPM |
-| Editor | Neovim / LazyVim — [separate repo](https://github.com/Imad-Oute/nvim) |
+| Editor | Neovim / LazyVim |
 | Notifications | Dunst |
 | Launcher | Rofi |
 | File manager | Dolphin / Yazi |
@@ -56,14 +56,6 @@ Wallpapers are not in the repo. See [wallpapers.md](wallpapers.md) for Wallhaven
 
 After install, open tmux and press `prefix + I` (that's `Ctrl+Space + I`) to install TPM plugins.
 
-### Neovim
-
-Neovim config is managed in a separate repo:
-
-```bash
-git clone https://github.com/Imad-Oute/nvim ~/.config/nvim
-```
-
 ## What's tracked
 
 ```
@@ -75,6 +67,7 @@ dotfiles/
 │   │   └── themes/        Claude Dark · Neural · Phantom · Entropy
 │   ├── waybar/            user-style.css overrides
 │   ├── kitty/             kitty.conf base config
+│   ├── nvim/              Neovim / LazyVim config
 │   ├── starship/          starship.toml prompt
 │   ├── btop/              btop.conf
 │   ├── fastfetch/         fastfetch config + logo
