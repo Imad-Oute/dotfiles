@@ -1,0 +1,20 @@
+# HyDE auto-generated — overwritten on every theme/wallpaper switch
+.config/hypr/themes/
+
+# Wallpapers — binary files, documented in wallpapers.md instead
+.config/hyde/themes/*/wallpapers/
+.config/hyde/themes/*/wall.set
+.config/hyde/themes/*/wall.hyprlock.png
+
+# Secrets — never commit
+home/.zshrc.local
+
+# Runtime noise
+.config/btop/*.log
+.config/fastfetch/cache/
+
+# Editor
+*.swp
+*.swo
+*~
+.DS_Store

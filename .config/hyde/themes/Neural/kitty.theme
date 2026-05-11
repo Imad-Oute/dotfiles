@@ -1,0 +1,59 @@
+$HOME/.config/kitty/theme.conf|killall -SIGUSR1 kitty
+
+## name:     Neural
+## blurb:    Deep purple-black AI/ML theme with electric violet and data cyan
+
+foreground              #E8E0FF
+background              #07050F
+selection_foreground    #07050F
+selection_background    #7B61FF
+
+cursor                  #7B61FF
+cursor_text_color       #07050F
+
+url_color               #00D9FF
+
+active_border_color     #7B61FF
+inactive_border_color   #1E1530
+bell_border_color       #FF6BFF
+
+wayland_titlebar_color system
+macos_titlebar_color system
+
+active_tab_foreground   #07050F
+active_tab_background   #7B61FF
+inactive_tab_foreground #7A6B9A
+inactive_tab_background #100B1C
+tab_bar_background      #07050F
+
+# black
+color0  #0F0B1A
+color8  #2D1F5E
+
+# red
+color1  #FF4466
+color9  #FF6680
+
+# green
+color2  #44FF88
+color10 #66FFAA
+
+# yellow
+color3  #FFD700
+color11 #FFE040
+
+# blue
+color4  #4488FF
+color12 #66AAFF
+
+# magenta — neural violet
+color5  #7B61FF
+color13 #9B80FF
+
+# cyan — data cyan
+color6  #00D9FF
+color14 #40E8FF
+
+# white
+color7  #9B8DC0
+color15 #E8E0FF

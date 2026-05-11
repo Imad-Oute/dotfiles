@@ -1,0 +1,59 @@
+$HOME/.config/kitty/theme.conf|killall -SIGUSR1 kitty
+
+## name:     Claude Dark
+## blurb:    Warm dark theme inspired by Anthropic Claude's visual identity
+
+foreground              #F0EBE3
+background              #1A1110
+selection_foreground    #1A1110
+selection_background    #D97757
+
+cursor                  #D97757
+cursor_text_color       #1A1110
+
+url_color               #E8A080
+
+active_border_color     #D97757
+inactive_border_color   #3D302B
+bell_border_color       #E87040
+
+wayland_titlebar_color system
+macos_titlebar_color system
+
+active_tab_foreground   #1A1110
+active_tab_background   #D97757
+inactive_tab_foreground #B8A99A
+inactive_tab_background #262120
+tab_bar_background      #1A1110
+
+# black
+color0  #2A1F1E
+color8  #5A4540
+
+# red
+color1  #C85A3A
+color9  #E87040
+
+# green
+color2  #8BAD5A
+color10 #A0C870
+
+# yellow
+color3  #D4A027
+color11 #E8B83A
+
+# blue
+color4  #5A7EC5
+color12 #7A9ADF
+
+# magenta — Claude coral as accent
+color5  #D97757
+color13 #E8916A
+
+# cyan
+color6  #5AB8C5
+color14 #7ACFDB
+
+# white
+color7  #B8A99A
+color15 #F0EBE3

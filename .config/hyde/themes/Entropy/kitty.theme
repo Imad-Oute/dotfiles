@@ -1,0 +1,59 @@
+$HOME/.config/kitty/theme.conf|killall -SIGUSR1 kitty
+
+## name:     Entropy
+## blurb:    Cold near-black with deep orange-red to purple gradient — crypto/RE aesthetic
+
+foreground              #F0E8FF
+background              #0A0A0F
+selection_foreground    #0A0A0F
+selection_background    #FF4500
+
+cursor                  #FF4500
+cursor_text_color       #0A0A0F
+
+url_color               #FFD700
+
+active_border_color     #FF4500
+inactive_border_color   #2A1520
+bell_border_color       #FFD700
+
+wayland_titlebar_color system
+macos_titlebar_color system
+
+active_tab_foreground   #0A0A0F
+active_tab_background   #FF4500
+inactive_tab_foreground #8A7A9A
+inactive_tab_background #14101E
+tab_bar_background      #0A0A0F
+
+# black
+color0  #12101A
+color8  #1A1525
+
+# red — heat
+color1  #FF4500
+color9  #FF6633
+
+# green — code
+color2  #44AA44
+color10 #66CC66
+
+# yellow — entropy gold
+color3  #FFD700
+color11 #FFE040
+
+# blue — deep
+color4  #6644CC
+color12 #8866EE
+
+# magenta — deep purple
+color5  #6A0DAD
+color13 #8833CC
+
+# cyan — crypto purple
+color6  #AA44CC
+color14 #CC66EE
+
+# white
+color7  #8A7A9A
+color15 #F0E8FF

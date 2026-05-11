@@ -1,0 +1,59 @@
+$HOME/.config/kitty/theme.conf|killall -SIGUSR1 kitty
+
+## name:     Phantom
+## blurb:    Stealth navy-black theme with electric blue and ice cyan
+
+foreground              #E0EEFF
+background              #060C14
+selection_foreground    #060C14
+selection_background    #0078FF
+
+cursor                  #0078FF
+cursor_text_color       #060C14
+
+url_color               #00C8FF
+
+active_border_color     #0078FF
+inactive_border_color   #152035
+bell_border_color       #FF4444
+
+wayland_titlebar_color system
+macos_titlebar_color system
+
+active_tab_foreground   #060C14
+active_tab_background   #0078FF
+inactive_tab_foreground #607A9A
+inactive_tab_background #0D1726
+tab_bar_background      #060C14
+
+# black
+color0  #0D1520
+color8  #152035
+
+# red — alert
+color1  #FF4444
+color9  #FF6666
+
+# green — success
+color2  #00CC88
+color10 #00FFAA
+
+# yellow — warning
+color3  #FFCC00
+color11 #FFDD44
+
+# blue — primary
+color4  #0078FF
+color12 #4499FF
+
+# magenta
+color5  #8855FF
+color13 #AA77FF
+
+# cyan — ice
+color6  #00C8FF
+color14 #44DDFF
+
+# white
+color7  #607A9A
+color15 #E0EEFF

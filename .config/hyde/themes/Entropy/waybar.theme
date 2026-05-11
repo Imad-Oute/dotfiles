@@ -1,0 +1,13 @@
+$HOME/.config/waybar/theme.css|${scrDir}/wbarconfgen.sh
+
+/* Entropy — deep orange-red to purple gradient on cold near-black */
+@define-color bar-bg rgba(10, 10, 15, 0.85);
+
+@define-color main-bg #14101E;
+@define-color main-fg #F0E8FF;
+
+@define-color wb-act-bg #FF4500;
+@define-color wb-act-fg #0A0A0F;
+
+@define-color wb-hvr-bg #6A0DAD;
+@define-color wb-hvr-fg #F0E8FF;

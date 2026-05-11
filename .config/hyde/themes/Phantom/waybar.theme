@@ -1,0 +1,13 @@
+$HOME/.config/waybar/theme.css|${scrDir}/wbarconfgen.sh
+
+/* Phantom — electric blue and ice cyan on deep navy-black */
+@define-color bar-bg rgba(6, 12, 20, 0.85);
+
+@define-color main-bg #0D1726;
+@define-color main-fg #E0EEFF;
+
+@define-color wb-act-bg #0078FF;
+@define-color wb-act-fg #060C14;
+
+@define-color wb-hvr-bg #00C8FF;
+@define-color wb-hvr-fg #060C14;
