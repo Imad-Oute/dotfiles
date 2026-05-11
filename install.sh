@@ -90,6 +90,21 @@ link "$DOTFILES/.config/btop/btop.conf"  "$CFG/btop/btop.conf"
 link "$DOTFILES/.config/fastfetch"       "$CFG/fastfetch"
 link "$DOTFILES/.config/dunst"           "$CFG/dunst"
 
+# ── Firefox Dev Edition ────────────────────────────────────────────────────
+hdr "Firefox Dev Edition"
+FFDEV=$(find "$HOME/.mozilla/firefox" -maxdepth 1 -name "*.dev-edition-default" -type d | head -1)
+if [ -n "$FFDEV" ]; then
+    mkdir -p "$FFDEV/chrome"
+    link "$DOTFILES/.config/firefox/chrome/userChrome.css"  "$FFDEV/chrome/userChrome.css"
+    link "$DOTFILES/.config/firefox/chrome/userContent.css" "$FFDEV/chrome/userContent.css"
+    link "$DOTFILES/.config/firefox/user.js"                "$FFDEV/user.js"
+    ok "Firefox profile: $FFDEV"
+else
+    warn "Firefox Dev Edition profile not found — skipping"
+fi
+link "$DOTFILES/.config/hyde/wallbash/always/firefox.dcol" \
+     "$CFG/hyde/wallbash/always/firefox.dcol"
+
 # ── Post-install ───────────────────────────────────────────────────────────
 printf "\n${GREEN}${BOLD}Done.${NC}\n"
 printf "\nNext steps:\n"
@@ -98,5 +113,5 @@ printf "  2. Super+Shift+T  → pick a theme\n"
 printf "  3. Add wallpapers to ~/.config/hyde/themes/<Theme>/wallpapers/\n"
 printf "     then: ln -sf <wallpaper> ~/.config/hyde/themes/<Theme>/wall.set\n"
 printf "  4. Install tmux plugins: tmux then prefix + I\n"
-printf "\nNeovim is managed separately:\n"
-printf "  → https://github.com/Imad-Oute/nvim  (set up your own fork)\n\n"
+printf "  5. Firefox: install Tree Style Tab, restart Firefox\n"
+printf "     paste tst.css from dotfiles/.config/firefox/tst.css into TST prefs\n\n"

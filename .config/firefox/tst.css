@@ -1,0 +1,111 @@
+/* Tree Style Tab — User Style Sheet
+ * Paste this into: TST Preferences → Appearance → User style sheet
+ *
+ * Uses neutral dark values that complement all wallbash-generated palettes.
+ * The Firefox chrome (toolbar, urlbar) gets full wallbash recoloring via
+ * userChrome.css + colors.css.
+ */
+
+:root {
+    --bg:            #0d0d0d;
+    --surface:       #161616;
+    --surface2:      #1e1e1e;
+    --border:        rgba(255, 255, 255, 0.06);
+    --text:          #aaaaaa;
+    --text-active:   #eeeeee;
+    --text-muted:    #555555;
+    --accent-bg:     rgba(255, 255, 255, 0.08);
+    --accent-active: rgba(255, 255, 255, 0.14);
+    --close-color:   rgba(255, 255, 255, 0.4);
+}
+
+/* ─── Sidebar background ────────────────────────────────────────────────── */
+#background {
+    background: var(--bg) !important;
+}
+
+/* ─── Tab item base ─────────────────────────────────────────────────────── */
+tab-item {
+    margin: 1px 4px !important;
+    padding: 0 2px !important;
+    border-radius: 5px !important;
+    transition: background 0.1s !important;
+}
+
+tab-item .label-content {
+    color: var(--text) !important;
+    font-size: 12px !important;
+    font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace !important;
+}
+
+/* ─── Hover ─────────────────────────────────────────────────────────────── */
+tab-item:hover {
+    background: var(--accent-bg) !important;
+}
+
+/* ─── Active tab ────────────────────────────────────────────────────────── */
+tab-item.active,
+tab-item.active:hover {
+    background: var(--accent-active) !important;
+}
+
+tab-item.active .label-content {
+    color: var(--text-active) !important;
+    font-weight: 500 !important;
+}
+
+/* ─── Loading / pinned states ───────────────────────────────────────────── */
+tab-item.loading .label-content {
+    color: var(--text-muted) !important;
+}
+
+tab-item.pinned {
+    border-radius: 5px !important;
+}
+
+/* ─── Close button — hidden until hover ─────────────────────────────────── */
+tab-item .closebox {
+    opacity: 0 !important;
+    transition: opacity 0.12s !important;
+}
+
+tab-item:hover .closebox {
+    opacity: 0.45 !important;
+}
+
+tab-item:hover .closebox:hover {
+    opacity: 0.9 !important;
+    color: var(--close-color) !important;
+}
+
+/* ─── Tree indent lines ─────────────────────────────────────────────────── */
+.indent {
+    border-left: 1.5px solid var(--border) !important;
+}
+
+/* ─── New tab button ────────────────────────────────────────────────────── */
+#new-tab-button {
+    opacity: 0.25 !important;
+    margin: 4px 8px !important;
+    transition: opacity 0.12s !important;
+}
+
+#new-tab-button:hover {
+    opacity: 0.7 !important;
+    background: var(--accent-bg) !important;
+    border-radius: 5px !important;
+}
+
+/* ─── Scrollbar inside TST ──────────────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 3px !important;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 99px !important;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent !important;
+}

@@ -1,0 +1,24 @@
+/* userContent.css — styles web content (scrollbars, about: pages) */
+
+/* ─── Thin scrollbars everywhere ───────────────────────────────────────── */
+@-moz-document url-prefix() {
+    * {
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(255,255,255,0.12) transparent !important;
+    }
+}
+
+/* ─── about:blank — match the system dark background ───────────────────── */
+@-moz-document url(about:blank) {
+    :root, html, body {
+        background-color: #0d0d0d !important;
+        color: #c8c8c8 !important;
+    }
+}
+
+/* ─── about:home / about:newtab — minimal dark ──────────────────────────── */
+@-moz-document url(about:home), url(about:newtab) {
+    body {
+        background-color: #0d0d0d !important;
+    }
+}
