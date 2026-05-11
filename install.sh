@@ -52,8 +52,15 @@ link "$DOTFILES/.config/hypr"           "$CFG/hypr"
 # ── HyDE ───────────────────────────────────────────────────────────────────
 hdr "HyDE"
 link "$DOTFILES/.config/hyde/config.toml" "$CFG/hyde/config.toml"
+# Themes must be real directories (HyDE's scanner uses find -type d, skips symlinks)
 for theme in "Claude Dark" "Neural" "Phantom" "Entropy"; do
-    link "$DOTFILES/.config/hyde/themes/$theme" "$CFG/hyde/themes/$theme"
+    mkdir -p "$CFG/hyde/themes/$theme"
+    for f in hypr.theme waybar.theme rofi.theme kitty.theme; do
+        link "$DOTFILES/.config/hyde/themes/$theme/$f" "$CFG/hyde/themes/$theme/$f"
+    done
+    # Wallpapers live in the dotfiles repo; symlink the dir in
+    link "$DOTFILES/.config/hyde/themes/$theme/wallpapers" "$CFG/hyde/themes/$theme/wallpapers"
+    ok "theme: $theme"
 done
 
 # ── Waybar ─────────────────────────────────────────────────────────────────
