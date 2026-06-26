@@ -2,6 +2,21 @@
 
 Personal Arch Linux rice — Hyprland + HyDE, built for an AI/cybersecurity workflow.
 
+## 📖 Documentation
+
+A full guide to every layer of this setup — what it does, **why** it's configured
+this way, and how to change it safely — lives in [`docs/`](docs/README.md).
+
+| Start here | Then by layer |
+|---|---|
+| [Overview & mental model](docs/00-overview.md) | [Hyprland](docs/03-hyprland.md) · [Kitty](docs/04-kitty.md) · [Zsh](docs/05-zsh.md) · [Starship](docs/06-starship.md) |
+| [Architecture & install](docs/01-architecture.md) | [Tmux](docs/07-tmux.md) · [Neovim](docs/08-neovim.md) · [Waybar & Dunst](docs/09-waybar-dunst.md) |
+| [Theming pipeline (wallbash)](docs/02-theming-pipeline.md) | [Firefox & Tridactyl](docs/10-firefox.md) · [CLI Tools](docs/11-cli-tools.md) |
+
+> **The one rule:** edit files in `~/dotfiles/`, never the live copies in
+> `~/.config/`. They're symlinks back here. See
+> [docs/01-architecture.md](docs/01-architecture.md).
+
 ## Stack
 
 | Layer | Tool |

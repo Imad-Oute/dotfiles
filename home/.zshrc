@@ -10,7 +10,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time Oh My Zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# Prompt is handled by Starship (see section 8 at the bottom), so leave OMZ themeless.
+ZSH_THEME=""
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -115,6 +116,9 @@ export NANOBANANA_GEMINI_API_KEY
 
 # 1. Zoxide (Smart cd) - Replaces 'cd' with 'z'
 # It learns your most-used paths for instant jumping.
+# _ZO_DOCTOR=0 silences the "init zoxide last" notice — we deliberately init
+# Starship last (it must own the prompt), so zoxide's advice doesn't apply.
+export _ZO_DOCTOR=0
 eval "$(zoxide init zsh)"
 alias cd="z"
 
@@ -155,3 +159,15 @@ alias rg="rg --smart-case --hidden --glob '!.git/*'"
 
 # Load local secrets (ignored by chezmoi)
 [ -f ~/.zshrc.local ] && source ~/.zshrc.local
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+export NVM_DIR="$HOME/.config/nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# 8. Starship prompt (the riced two-line prompt + right-aligned git branch)
+# Config lives at ~/.config/starship/starship.toml (symlinked from dotfiles),
+# so we point STARSHIP_CONFIG there since it's not the default ~/.config/starship.toml.
+export STARSHIP_CONFIG="$HOME/.config/starship/starship.toml"
+eval "$(starship init zsh)"

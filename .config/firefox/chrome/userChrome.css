@@ -121,23 +121,8 @@
     background-color: var(--wb-bg) !important;
 }
 
+/* Collapse sidebar header — TST's own header bar handles this */
 #sidebar-header {
-    background-color: var(--wb-surface) !important;
-    color: var(--wb-text2) !important;
-    border-bottom: 1px solid var(--wb-border) !important;
-    padding: 4px 8px !important;
-    font-size: 11px !important;
-}
-
-.sidebar-title {
-    color: var(--wb-text2) !important;
-    font-size: 11px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.05em !important;
-}
-
-/* Hide sidebar header close button — use keyboard shortcut instead */
-#sidebar-close {
     display: none !important;
 }
 

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus</title>
+<link rel="stylesheet" href="colors.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --font: "JetBrainsMono Nerd Font", "JetBrains Mono", "Fira Code", monospace;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+  }
+
+  /* ── Clock ── */
+  #clock {
+    font-size: clamp(48px, 8vw, 88px);
+    font-weight: 200;
+    letter-spacing: -0.02em;
+    color: var(--text-hi);
+    line-height: 1;
+    margin-bottom: 6px;
+    transition: opacity 0.3s;
+  }
+
+  #date {
+    font-size: 13px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 52px;
+  }
+
+  /* ── Focus input ── */
+  #focus-wrap {
+    position: relative;
+    width: min(480px, 88vw);
+    margin-bottom: 20px;
+  }
+
+  #focus-label {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+
+  #focus {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-hi);
+    font-family: var(--font);
+    font-size: 15px;
+    padding: 10px 14px;
+    outline: none;
+    caret-color: var(--accent);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  #focus::placeholder {
+    color: var(--text-dim);
+  }
+
+  #focus:focus {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent) 7%, transparent);
+  }
+
+  /* ── Search bar ── */
+  #search-wrap {
+    width: min(480px, 88vw);
+    position: relative;
+  }
+
+  #search {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    border-radius: 0;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 13px;
+    padding: 8px 4px;
+    outline: none;
+    caret-color: var(--accent);
+    transition: border-color 0.15s;
+  }
+
+  #search::placeholder {
+    color: var(--text-dim);
+  }
+
+  #search:focus {
+    border-bottom-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  /* ── Hint line ── */
+  #hint {
+    margin-top: 48px;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  body:has(#focus:focus, #search:focus) #hint {
+    opacity: 1;
+  }
+
+  /* ── Dim clock when typing ── */
+  body:has(#focus:not(:placeholder-shown)) #clock,
+  body:has(#search:not(:placeholder-shown)) #clock {
+    opacity: 0.25;
+  }
+</style>
+</head>
+<body>
+
+<div id="clock">00:00:00</div>
+<div id="date">monday, 00 month 0000</div>
+
+<div id="focus-wrap">
+  <div id="focus-label">current focus</div>
+  <input id="focus" type="text" placeholder="what are you working on?" autocomplete="off" spellcheck="false">
+</div>
+
+<div id="search-wrap">
+  <input id="search" type="text" placeholder="/ search" autocomplete="off" spellcheck="false">
+</div>
+
+<div id="hint">enter → search &nbsp;·&nbsp; esc → clear &nbsp;·&nbsp; focus saved locally</div>
+
+<script>
+  // ── Clock ──────────────────────────────────────────────────────────────
+  const clockEl = document.getElementById('clock');
+  const dateEl  = document.getElementById('date');
+
+  const DAYS   = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  const MONTHS = ['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+
+  function tick() {
+    const now = new Date();
+    const hh  = String(now.getHours()).padStart(2,'0');
+    const mm  = String(now.getMinutes()).padStart(2,'0');
+    const ss  = String(now.getSeconds()).padStart(2,'0');
+    clockEl.textContent = `${hh}:${mm}:${ss}`;
+
+    const day   = DAYS[now.getDay()];
+    const date  = String(now.getDate()).padStart(2,'0');
+    const month = MONTHS[now.getMonth()];
+    const year  = now.getFullYear();
+    dateEl.textContent = `${day}, ${date} ${month} ${year}`;
+  }
+
+  tick();
+  setInterval(tick, 1000);
+
+  // ── Focus task persistence ─────────────────────────────────────────────
+  const focusEl = document.getElementById('focus');
+  const STORE   = 'startpage-focus';
+
+  const saved = localStorage.getItem(STORE);
+  if (saved) focusEl.value = saved;
+
+  focusEl.addEventListener('input', () => {
+    localStorage.setItem(STORE, focusEl.value);
+  });
+
+  focusEl.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      focusEl.value = '';
+      localStorage.removeItem(STORE);
+      focusEl.blur();
+    }
+  });
+
+  // ── Search ─────────────────────────────────────────────────────────────
+  const searchEl = document.getElementById('search');
+
+  // '/' anywhere on page focuses search (unless already in an input)
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement === document.body) {
+      e.preventDefault();
+      searchEl.focus();
+      searchEl.value = '';
+    }
+  });
+
+  searchEl.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && searchEl.value.trim()) {
+      const q = searchEl.value.trim();
+      // bare URL → navigate directly; otherwise duck it
+      const isUrl = /^(https?:\/\/|localhost|\w+\.\w{2,})/.test(q);
+      window.location.href = isUrl ? (q.startsWith('http') ? q : 'https://' + q)
+                                   : `https://duckduckgo.com/?q=${encodeURIComponent(q)}`;
+    }
+    if (e.key === 'Escape') {
+      searchEl.value = '';
+      searchEl.blur();
+    }
+  });
+
+  // Auto-focus clock page on load
+  window.addEventListener('load', () => searchEl.focus());
+</script>
+</body>
+</html>

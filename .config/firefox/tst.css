@@ -1,41 +1,74 @@
 /* Tree Style Tab — User Style Sheet
- * Paste this into: TST Preferences → Appearance → User style sheet
+ * Paste into: TST Preferences → Appearance → User style sheet
  *
- * Uses neutral dark values that complement all wallbash-generated palettes.
- * The Firefox chrome (toolbar, urlbar) gets full wallbash recoloring via
- * userChrome.css + colors.css.
+ * Design goals:
+ *   - Sidebar header fully hidden (no "Tree Style Tab" title bar eating space)
+ *   - Inactive subtrees visually recede — active context pops
+ *   - Favicon-first: tabs are short, titles truncate cleanly
+ *   - Zero chrome noise during deep work
  */
 
 :root {
     --bg:            #0d0d0d;
-    --surface:       #161616;
-    --surface2:      #1e1e1e;
-    --border:        rgba(255, 255, 255, 0.06);
-    --text:          #aaaaaa;
-    --text-active:   #eeeeee;
-    --text-muted:    #555555;
-    --accent-bg:     rgba(255, 255, 255, 0.08);
-    --accent-active: rgba(255, 255, 255, 0.14);
-    --close-color:   rgba(255, 255, 255, 0.4);
+    --surface:       #111111;
+    --border:        rgba(255, 255, 255, 0.05);
+    --text:          #888888;
+    --text-active:   #e8e8e8;
+    --text-muted:    #444444;
+    --accent-bg:     rgba(255, 255, 255, 0.06);
+    --accent-active: rgba(255, 255, 255, 0.11);
+    --close-color:   rgba(255, 255, 255, 0.35);
+    --tab-height:    26px;
 }
 
-/* ─── Sidebar background ────────────────────────────────────────────────── */
+/* ─── Full sidebar background ───────────────────────────────────────────── */
 #background {
     background: var(--bg) !important;
 }
 
+/* ─── Hide the TST header bar entirely ─────────────────────────────────── */
+#tabbar-top,
+.tabs-top,
+#toolbar,
+.toolbar {
+    display: none !important;
+}
+
+/* ─── Tab container ─────────────────────────────────────────────────────── */
+#tabbar {
+    padding-top: 4px !important;
+}
+
 /* ─── Tab item base ─────────────────────────────────────────────────────── */
 tab-item {
-    margin: 1px 4px !important;
-    padding: 0 2px !important;
-    border-radius: 5px !important;
-    transition: background 0.1s !important;
+    margin: 1px 3px !important;
+    padding: 0 !important;
+    border-radius: 4px !important;
+    min-height: var(--tab-height) !important;
+    max-height: var(--tab-height) !important;
+    transition: background 0.08s ease !important;
 }
 
 tab-item .label-content {
     color: var(--text) !important;
-    font-size: 12px !important;
+    font-size: 11.5px !important;
     font-family: "JetBrainsMono Nerd Font", "JetBrains Mono", monospace !important;
+    line-height: var(--tab-height) !important;
+}
+
+/* ─── Favicons ──────────────────────────────────────────────────────────── */
+tab-item .favicon {
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 5px 0 6px !important;
+    flex-shrink: 0 !important;
+    opacity: 0.6 !important;
+    transition: opacity 0.08s !important;
+}
+
+tab-item:hover .favicon,
+tab-item.active .favicon {
+    opacity: 0.95 !important;
 }
 
 /* ─── Hover ─────────────────────────────────────────────────────────────── */
@@ -54,55 +87,96 @@ tab-item.active .label-content {
     font-weight: 500 !important;
 }
 
-/* ─── Loading / pinned states ───────────────────────────────────────────── */
+/* ─── Inactive subtrees recede ──────────────────────────────────────────── */
+tab-item:not(.active):not(:hover) .label-content {
+    opacity: 0.65 !important;
+}
+
+/* ─── Collapsed tree parent indicator ──────────────────────────────────── */
+tab-item.collapsed > .item-substance::after {
+    content: " +" !important;
+    color: var(--text-muted) !important;
+    font-size: 10px !important;
+}
+
+/* ─── Sound playing indicator ───────────────────────────────────────────── */
+tab-item.sound-playing .label-content::after {
+    content: " ♪" !important;
+    color: var(--text-muted) !important;
+    font-size: 10px !important;
+}
+
+/* ─── Loading state ─────────────────────────────────────────────────────── */
 tab-item.loading .label-content {
     color: var(--text-muted) !important;
 }
 
-tab-item.pinned {
-    border-radius: 5px !important;
+tab-item.loading .favicon {
+    opacity: 0.3 !important;
 }
 
-/* ─── Close button — hidden until hover ─────────────────────────────────── */
+/* ─── Pinned tabs ───────────────────────────────────────────────────────── */
+tab-item.pinned {
+    border-radius: 4px !important;
+}
+
+tab-item.pinned .label-content {
+    display: none !important;
+}
+
+/* ─── Close button — invisible until hover ──────────────────────────────── */
 tab-item .closebox {
     opacity: 0 !important;
-    transition: opacity 0.12s !important;
+    width: 14px !important;
+    height: 14px !important;
+    margin-right: 4px !important;
+    flex-shrink: 0 !important;
+    transition: opacity 0.1s !important;
 }
 
 tab-item:hover .closebox {
-    opacity: 0.45 !important;
+    opacity: 0.35 !important;
 }
 
 tab-item:hover .closebox:hover {
-    opacity: 0.9 !important;
+    opacity: 0.8 !important;
     color: var(--close-color) !important;
 }
 
-/* ─── Tree indent lines ─────────────────────────────────────────────────── */
+/* ─── Tree indent guides ────────────────────────────────────────────────── */
 .indent {
-    border-left: 1.5px solid var(--border) !important;
+    border-left: 1px solid var(--border) !important;
+    margin-left: 1px !important;
+}
+
+/* ─── Group tab label ───────────────────────────────────────────────────── */
+tab-item.group-tab .label-content {
+    font-size: 10px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.07em !important;
+    color: var(--text-muted) !important;
 }
 
 /* ─── New tab button ────────────────────────────────────────────────────── */
 #new-tab-button {
-    opacity: 0.25 !important;
-    margin: 4px 8px !important;
-    transition: opacity 0.12s !important;
+    opacity: 0.18 !important;
+    margin: 6px 8px 4px !important;
+    transition: opacity 0.1s !important;
+    border-radius: 4px !important;
 }
 
 #new-tab-button:hover {
-    opacity: 0.7 !important;
+    opacity: 0.55 !important;
     background: var(--accent-bg) !important;
-    border-radius: 5px !important;
 }
 
-/* ─── Scrollbar inside TST ──────────────────────────────────────────────── */
+/* ─── Scrollbar ─────────────────────────────────────────────────────────── */
 ::-webkit-scrollbar {
-    width: 3px !important;
+    width: 2px !important;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.08) !important;
     border-radius: 99px !important;
 }
 

@@ -1,0 +1,186 @@
+" tridactylrc
+" Sourced automatically via native messenger.
+" Symlink: ~/.config/tridactyl/tridactylrc -> ~/dotfiles/.config/tridactyl/tridactylrc
+
+" ── Sanitize on load ────────────────────────────────────────────────────────
+sanitise tridactyllocal tridactylsync
+
+" ══════════════════════════════════════════════════════════════════════════════
+" SETTINGS
+" ══════════════════════════════════════════════════════════════════════════════
+
+" Smooth scroll
+set smoothscroll true
+
+" Don't autofocus inputs on page load — keeps you in normal mode
+set allowautofocus false
+
+" Newtab → startpage
+set newtab file:///home/sog/dotfiles/.config/firefox/startpage/index.html
+
+" Hinting — single char where possible, uppercase for visual pop
+set hintchars asdfghjklqwertyuiopzxcvbnm
+set hintfiltermode vimperator-reflow
+
+" Completions show 10 results
+set completions.Tab.count 10
+
+" URL bar completion ordering: tabs first, then bookmarks, then history
+set completions.Tab.progressive_mode true
+
+" ══════════════════════════════════════════════════════════════════════════════
+" NORMAL MODE — core binds
+" ══════════════════════════════════════════════════════════════════════════════
+
+" ── Scrolling ───────────────────────────────────────────────────────────────
+bind j scrollline 5
+bind k scrollline -5
+bind d scrollpage 0.5
+bind u scrollpage -0.5
+bind G scrollto 100
+bind gg scrollto 0
+
+" ── History navigation (H/L = left/right, mirrors Ctrl+h/l pane nav) ────────
+bind H back
+bind L forward
+
+" ── Reload ──────────────────────────────────────────────────────────────────
+bind r reload
+bind R reloadhard
+
+" ── Tabs ────────────────────────────────────────────────────────────────────
+bind J tabnext
+bind K tabprev
+bind x tabclose
+bind u undo
+bind t tabopen
+bind T current_url tabopen
+bind O fillcmdline open
+bind o fillcmdline tabopen
+
+" ── Tab search — fuzzy jump to any open tab ─────────────────────────────────
+bind b fillcmdline buffer
+
+" ══════════════════════════════════════════════════════════════════════════════
+" TREE STYLE TAB — keyboard control via TST messaging API
+" ══════════════════════════════════════════════════════════════════════════════
+"
+" All commands use jsb to send messages to TST's background script.
+" TST must be registered as an external extension first — do this once:
+"   :jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'register-self', name:'tridactyl', icons:{}, listeningTypes:[]})
+"
+" Tree structure
+" ──────────────
+" >  expand current tab's tree (show children)
+" <  collapse current tab's tree (hide children)
+" ]]  indent current tab (make it child of tab above)
+" [[  outdent current tab (promote to parent level)
+"
+bind > jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'expand-tree', tab:'current'})
+bind < jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'collapse-tree', tab:'current'})
+bind ]] jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'indent', tab:'current'})
+bind [[ jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'outdent', tab:'current'})
+
+" Tree-aware tab navigation
+" ─────────────────────────
+" <A-j>  next sibling tab (same parent, skip children)
+" <A-k>  prev sibling tab (same parent, skip children)
+" <A-p>  jump to parent tab
+" <A-c>  jump to first child tab
+"
+bind <A-j> jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'focus', tab:'next-sibling'})
+bind <A-k> jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'focus', tab:'prev-sibling'})
+bind <A-p> jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'focus', tab:'parent'})
+bind <A-c> jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'focus', tab:'first-child'})
+
+" Collapse all trees except the current one — clear the noise
+bind <A-z> jsb browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'collapse-tree', tab:'all'}).then(()=> browser.runtime.sendMessage('treestyletab@piro.sakura.ne.jp', {type:'expand-tree', tab:'current'}))
+
+" Toggle sidebar (show/hide TST panel)
+bind <A-b> jsb browser.sidebarAction.toggle()
+
+" ── Hints ───────────────────────────────────────────────────────────────────
+bind f hint
+bind F hint -t
+
+" ── Focus / input ───────────────────────────────────────────────────────────
+bind gi focusinput -l
+bind <Escape> composite mode normal ; hidecmdline
+
+" ── URL bar ─────────────────────────────────────────────────────────────────
+bind s fillcmdline open
+bind S fillcmdline tabopen
+
+" ── Yank / paste ────────────────────────────────────────────────────────────
+bind yy clipboard yank
+bind yt clipboard yankcanon
+bind p open -- clipboard
+bind P tabopen -- clipboard
+
+" ── Reader mode ─────────────────────────────────────────────────────────────
+bind <A-r> reader
+
+" ── Find (in-page search) ───────────────────────────────────────────────────
+bind / fillcmdline find
+bind n findnext 1
+bind N findnext -1
+
+" ── Zoom ────────────────────────────────────────────────────────────────────
+bind zi zoom 1.1 true
+bind zo zoom 0.9 true
+bind z= zoom 1
+
+" ── Source config ───────────────────────────────────────────────────────────
+bind <A-s> source
+
+" ── Mute tab ────────────────────────────────────────────────────────────────
+bind <A-m> mute toggle
+
+" ══════════════════════════════════════════════════════════════════════════════
+" INSERT / INPUT MODE
+" ══════════════════════════════════════════════════════════════════════════════
+
+" jk → escape insert mode (mirrors your nvim escape)
+bind --mode=insert jk composite unfocus; mode normal
+
+" ══════════════════════════════════════════════════════════════════════════════
+" PASSTHROUGH
+" ══════════════════════════════════════════════════════════════════════════════
+
+" <Space> in normal mode → pass next key to page (escape hatch for web apps)
+bind <Space> nmode ignore 1 mode normal
+
+" ══════════════════════════════════════════════════════════════════════════════
+" UNBIND CONFLICTING NATIVE FIREFOX SHORTCUTS
+" ══════════════════════════════════════════════════════════════════════════════
+
+" These are handled by Tridactyl now
+unbind <C-f>
+unbind <C-b>
+
+" ══════════════════════════════════════════════════════════════════════════════
+" SITE-SPECIFIC — IGNORE MODE (pass keys to page)
+" ══════════════════════════════════════════════════════════════════════════════
+
+" Let these apps handle their own keyboard shortcuts
+autocmd DocStart app.excalidraw.com mode ignore
+autocmd DocStart linear.app mode ignore
+autocmd DocStart notion.so mode ignore
+autocmd DocStart docs.google.com mode ignore
+autocmd DocStart github.com/.*/(pull|issues) mode normal
+autocmd DocStart mail.google.com mode ignore
+autocmd DocStart discord.com mode ignore
+
+" ══════════════════════════════════════════════════════════════════════════════
+" APPEARANCE — use theme matching userChrome
+" ══════════════════════════════════════════════════════════════════════════════
+
+colorscheme dark
+
+" ══════════════════════════════════════════════════════════════════════════════
+" QUICKMARKS — jump to frequent sites with `go<key>`
+" ══════════════════════════════════════════════════════════════════════════════
+
+" Usage: `go<key>` opens in same tab, `gn<key>` opens in new tab
+" Add your own: quickmark g https://github.com
+" quickmark g https://github.com

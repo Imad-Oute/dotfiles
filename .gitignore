@@ -18,3 +18,6 @@ home/.zshrc.local
 *.swo
 *~
 .DS_Store
+
+# Backups (e.g. starship.toml.bak created before edits)
+*.bak
