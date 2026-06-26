@@ -13,6 +13,9 @@ this way, and how to change it safely — lives in [`docs/`](docs/README.md).
 | [Architecture & install](docs/01-architecture.md) | [Tmux](docs/07-tmux.md) · [Neovim](docs/08-neovim.md) · [Waybar & Dunst](docs/09-waybar-dunst.md) |
 | [Theming pipeline (wallbash)](docs/02-theming-pipeline.md) | [Firefox & Tridactyl](docs/10-firefox.md) · [CLI Tools](docs/11-cli-tools.md) |
 
+⌨️ **[Keybindings cheat-sheet](docs/12-cheatsheet.md)** — every shortcut across
+Hyprland + tmux + Neovim + Tridactyl in one page.
+
 > **The one rule:** edit files in `~/dotfiles/`, never the live copies in
 > `~/.config/`. They're symlinks back here. See
 > [docs/01-architecture.md](docs/01-architecture.md).

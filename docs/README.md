@@ -22,6 +22,7 @@ returning after months away), start at the top and work down.
 | 09 | [Waybar & Dunst](09-waybar-dunst.md) | The bar and notifications |
 | 10 | [Firefox & Tridactyl](10-firefox.md) | Browser chrome CSS, vim-style browsing, the start page |
 | 11 | [CLI Tools](11-cli-tools.md) | btop, fastfetch, eza, zoxide, fzf, bat, lazygit and friends |
+| 12 | [Keybindings Cheat-Sheet](12-cheatsheet.md) | **Every shortcut** across Hyprland, tmux, nvim, tridactyl — in one place |
 
 ## The one rule that prevents 90% of problems
 
