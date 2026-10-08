@@ -21,3 +21,15 @@ home/.zshrc.local
 
 # Backups (e.g. starship.toml.bak created before edits)
 *.bak
+
+# themeforge: generated artefacts — rebuilt by `themeforge/forge.py install all` (run by install.sh)
+themeforge/build/
+.config/hypr/hyprlock/Glass.conf
+.config/hypr/hyprlock/BlackArch.conf
+# machine-specific monitor layouts written by nwg-displays / HyDE
+.config/hypr/monitors.lua
+.config/hypr/workspaces.lua
+
+# Python bytecode
+__pycache__/
+*.pyc

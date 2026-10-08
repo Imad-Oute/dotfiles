@@ -1,0 +1,100 @@
+# Glass — translucent liquid-glass material. Theme mode = this dark palette; auto/dark/light modes use HyDE wallbash on top of the same material.
+# Every generated layer (Hyprland, Waybar, Rofi, Kitty, tmux, GTK3/4, Kvantum, dcol) reads this file only.
+
+[meta]
+name   = "Glass"
+slug   = "glass"
+gtk    = "Glass"
+mode   = "dark"                    # drives COLOR_SCHEME + dcol_mode
+icon   = "Tela-circle-blue"
+cursor = "Bibata-Modern-Ice"
+cursor_size = 24
+font   = "SF Pro Display"
+font_size = 10
+mono   = "CaskaydiaCove Nerd Font Mono"
+wall   = "glass_dark.png"      # desktop (in the theme's wallpapers/)
+lock   = "glass_night.png"     # lockscreen
+
+# ── Semantic palette (iOS dark system colors) ───────────────────────────────
+[palette]
+bg        = "#000000"
+base      = "#1C1C1E"   # secondarySystemBackground
+raised    = "#2C2C2E"   # tertiary
+raised2   = "#3A3A3C"
+separator = "#48484A"
+text      = "#FFFFFF"
+text2     = "#EBEBF5"   # secondary label (use with alpha for true iOS look)
+text3     = "#98989D"   # tertiary / disabled
+accent    = "#0A84FF"
+accent_hi = "#409CFF"
+accent_lo = "#0060DF"
+on_accent = "#FFFFFF"
+accent2   = "#BF5AF2"
+red       = "#FF453A"
+orange    = "#FF9F0A"
+yellow    = "#FFD60A"
+green     = "#30D158"
+teal      = "#64D2FF"
+pink      = "#FF375F"
+indigo    = "#5E5CE6"
+
+# ── Terminal ANSI (explicit, tuned for contrast on this background) ────────
+[ansi]
+black = "#1C1C1E"
+red = "#FF453A"
+green = "#30D158"
+yellow = "#FFD60A"
+blue = "#0A84FF"
+magenta = "#BF5AF2"
+cyan = "#64D2FF"
+white = "#EBEBF5"
+bblack = "#636366"
+bred = "#FF6961"
+bgreen = "#4CD964"
+byellow = "#FFE55C"
+bblue = "#409CFF"
+bmagenta = "#DA8FFF"
+bcyan = "#8BE0FF"
+bwhite = "#FFFFFF"
+term_bg = "#0B0B10"
+term_fg = "#F2F2F7"
+
+# ── Material (the "glass") ──────────────────────────────────────────────────
+[glass]
+tint            = "#1C1C1E"
+window_active   = 0.72
+window_inactive = 0.60
+bar_alpha       = 0.38
+pill_alpha      = 0.52
+popup_alpha     = 0.78
+rim_hi          = 0.60   # specular highlight alpha on the lit edge
+rim_lo          = 0.10
+blur_size       = 16
+blur_passes     = 4
+vibrancy        = 0.45
+vibrancy_dark   = 0.0
+brightness      = 0.90
+contrast        = 1.00
+noise           = 0.020
+shadow_color    = "#000000"
+shadow_alpha    = 0.45
+shadow_range    = 46
+shadow_y        = 14
+
+# ── Shape ───────────────────────────────────────────────────────────────────
+[shape]
+radius     = 22
+radius_sm  = 12
+radius_xs  = 8
+power      = 4        # squircle exponent (rounding_power)
+gaps_in    = 6
+gaps_out   = 14
+border     = 1
+
+# ── Motion (iOS spring-ish) ────────────────────────────────────────────────
+[motion]
+bezier   = "0.32, 0.72, 0, 1"
+win_in   = 5
+win_out  = 4
+fade     = 5
+ws       = 6

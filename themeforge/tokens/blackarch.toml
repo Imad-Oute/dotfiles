@@ -1,0 +1,95 @@
+# BlackArch — true-black (OLED), flat, zero-effects, Arch blue as the only chroma.
+# Philosophy: no blur, no shadow, no transparency, no radius. Every pixel is either black or signal.
+
+[meta]
+name   = "BlackArch"
+slug   = "blackarch"
+gtk    = "BlackArch"
+mode   = "dark"
+icon   = "Tela-circle-black"
+cursor = "Bibata-Modern-Ice"
+cursor_size = 24
+font   = "Inter"
+font_size = 10
+mono   = "CaskaydiaCove Nerd Font Mono"
+wall   = "blackarch_glow.png"
+lock   = "blackarch_word.png"
+
+[palette]
+bg        = "#000000"
+base      = "#050505"
+raised    = "#0D0D0D"
+raised2   = "#171717"
+separator = "#1F1F1F"
+text      = "#B8B8B8"
+text2     = "#8E8E8E"
+text3     = "#5C5C5C"
+accent    = "#1793D1"
+accent_hi = "#4DB5E8"
+accent_lo = "#0F6A99"
+on_accent = "#000000"
+accent2   = "#4DB5E8"
+red       = "#E5484D"
+orange    = "#F5A25D"
+yellow    = "#F5C451"
+green     = "#3DD68C"
+teal      = "#4FD1C5"
+pink      = "#F472B6"
+indigo    = "#A78BFA"
+
+[ansi]
+black = "#0A0A0A"
+red = "#E5484D"
+green = "#3DD68C"
+yellow = "#F5C451"
+blue = "#1793D1"
+magenta = "#A78BFA"
+cyan = "#4FD1C5"
+white = "#8E8E8E"
+bblack = "#3A3A3A"
+bred = "#FF6369"
+bgreen = "#5BE3A3"
+byellow = "#FFD772"
+bblue = "#4DB5E8"
+bmagenta = "#C0A8FF"
+bcyan = "#7BE4DA"
+bwhite = "#D0D0D0"
+term_bg = "#000000"
+term_fg = "#B8B8B8"
+
+[glass]
+tint            = "#000000"
+window_active   = 1.0
+window_inactive = 1.0
+bar_alpha       = 1.0
+pill_alpha      = 1.0
+popup_alpha     = 1.0
+rim_hi          = 1.0
+rim_lo          = 1.0
+blur_size       = 1
+blur_passes     = 1
+vibrancy        = 0.0
+vibrancy_dark   = 0.0
+brightness      = 1.0
+contrast        = 1.0
+noise           = 0.0
+shadow_color    = "#000000"
+shadow_alpha    = 0.0
+shadow_range    = 0
+shadow_y        = 0
+
+[shape]
+radius     = 0
+radius_sm  = 0
+radius_xs  = 0
+power      = 2
+gaps_in    = 2
+gaps_out   = 6
+border     = 1
+
+[motion]
+bezier   = "0.2, 0.9, 0.1, 1"
+win_in   = 3
+win_out  = 3
+fade     = 3
+ws       = 3

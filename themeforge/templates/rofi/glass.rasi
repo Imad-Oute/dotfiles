@@ -1,0 +1,160 @@
+/**
+ * Glass launcher — themeforge. Capsule search, single-column list, mode tabs.
+ * Attribute: rofilaunch, launcher
+ * Colours/material come from ~/.config/rofi/theme.rasi (HyDE vars + glass-* vars from the theme);
+ * radii are overridden at launch by HyDE from Hyprland's rounding, so this adapts to round and flat themes.
+ */
+
+configuration {
+    modi:                        "drun,filebrowser,window,run";
+    show-icons:                  true;
+    display-drun:                "󰀻";
+    display-filebrowser:         "󰉋";
+    display-window:              "󰖯";
+    display-run:                 "󰆍";
+    drun-display-format:         "{name}";
+    window-format:               "{w} · {t}";
+    font:                        "SF Pro Display 11";
+    icon-theme:                  "Tela-circle-blue";
+    hover-select:                true;
+    me-select-entry:             "";
+    me-accept-entry:             "MousePrimary";
+}
+
+/* neutral fallbacks (wallbash modes / other themes); theme.rasi overrides these when it defines them */
+* {
+    glass-fill:                  rgba(128, 128, 128, 14%);
+    glass-rim:                   rgba(255, 255, 255, 20%);
+    glass-dim:                   rgba(160, 160, 160, 100%);
+    glass-r-window:              1.6em;
+    glass-r-input:               2em;
+    glass-r-item:                1.3em;
+}
+
+@theme "~/.config/rofi/theme.rasi"
+
+window {
+    width:                       34em;
+    location:                    center;
+    anchor:                      center;
+    transparency:                "real";
+    fullscreen:                  false;
+    cursor:                      "default";
+    spacing:                     0em;
+    padding:                     0em;
+    border:                      1px;
+    border-radius:               @glass-r-window;
+    border-color:                @main-br;
+    background-color:            @main-bg;
+}
+
+mainbox {
+    spacing:                     0.8em;
+    padding:                     1.1em;
+    orientation:                 vertical;
+    children:                    [ "inputbar", "listview", "mode-switcher" ];
+    background-color:            transparent;
+}
+
+/* ── Search ───────────────────────────────────────────────────────────── */
+inputbar {
+    spacing:                     0.8em;
+    padding:                     0.9em 1.3em;
+    border:                      1px;
+    border-radius:               @glass-r-input;
+    border-color:                @glass-rim;
+    background-color:            @glass-fill;
+    text-color:                  @main-fg;
+    children:                    [ "prompt", "entry" ];
+}
+prompt {
+    background-color:            transparent;
+    text-color:                  @main-ex;
+}
+entry {
+    placeholder:                 "Search";
+    placeholder-color:           @glass-dim;
+    cursor:                      text;
+    background-color:            transparent;
+    text-color:                  @main-fg;
+}
+
+/* ── Results ──────────────────────────────────────────────────────────── */
+listview {
+    columns:                     1;
+    lines:                       8;
+    spacing:                     0.3em;
+    padding:                     0em;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    fixed-height:                true;
+    fixed-columns:               true;
+    reverse:                     false;
+    cursor:                      "default";
+    background-color:            transparent;
+    text-color:                  @main-fg;
+}
+element {
+    spacing:                     1em;
+    padding:                     0.55em 1em;
+    border-radius:               @glass-r-item;
+    cursor:                      pointer;
+    background-color:            transparent;
+    text-color:                  @main-fg;
+}
+element normal.active, element alternate.active {
+    text-color:                  @main-ex;
+}
+element selected.normal, element selected.active {
+    border-radius:               @glass-r-item;
+    background-color:            @select-bg;
+    text-color:                  @select-fg;
+}
+element-icon {
+    size:                        2.2em;
+    cursor:                      inherit;
+    background-color:            transparent;
+    text-color:                  inherit;
+}
+element-text {
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+    cursor:                      inherit;
+    background-color:            transparent;
+    text-color:                  inherit;
+}
+
+/* ── Mode tabs ────────────────────────────────────────────────────────── */
+mode-switcher {
+    spacing:                     0.5em;
+    background-color:            transparent;
+}
+button {
+    padding:                     0.6em;
+    border-radius:               @glass-r-item;
+    cursor:                      pointer;
+    horizontal-align:            0.5;
+    background-color:            @glass-fill;
+    text-color:                  @glass-dim;
+}
+button selected {
+    background-color:            @select-bg;
+    text-color:                  @select-fg;
+}
+
+/* ── Messages ─────────────────────────────────────────────────────────── */
+error-message {
+    padding:                     1em;
+    border-radius:               @glass-r-item;
+    background-color:            @main-bg;
+    text-color:                  @main-fg;
+    children:                    [ "textbox" ];
+}
+textbox {
+    background-color:            transparent;
+    text-color:                  @main-fg;
+    vertical-align:              0.5;
+    horizontal-align:            0.0;
+}
