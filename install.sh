@@ -12,6 +12,8 @@ GREEN='\033[0;32m'; YELLOW='\033[1;33m'; BOLD='\033[1m'; NC='\033[0m'
 ok()  { printf "${GREEN}✓${NC}  %s\n" "$1"; }
 bk()  { printf "${YELLOW}→${NC}  backed up: %s\n" "$1"; }
 hdr() { printf "\n${BOLD}%s${NC}\n" "$1"; }
+warn() { printf "${YELLOW}!${NC}  %s\n" "$1"; }
+warn() { printf "${YELLOW}!${NC}  %s\n" "$1"; }
 
 # Link src → dst, backing up anything in the way
 link() {
@@ -105,13 +107,32 @@ fi
 link "$DOTFILES/.config/hyde/wallbash/always/firefox.dcol" \
      "$CFG/hyde/wallbash/always/firefox.dcol"
 
+# ── themeforge (Glass + BlackArch) ────────────────────────────────────────
+# Everything for these two themes is GENERATED from themeforge/tokens/*.toml:
+#   HyDE theme dirs (real copies), GTK3/4, Kvantum/Qt, rofi, kitty, tmux, waybar, lockscreen, VS Code extension, wallpapers.
+hdr "themeforge (Glass, BlackArch)"
+if command -v python3 &>/dev/null && python3 -c 'import tomllib' 2>/dev/null; then
+    command -v magick &>/dev/null || warn "ImageMagick not found — wallpapers will be skipped (pacman -S imagemagick)"
+    command -v code   &>/dev/null || warn "VS Code ('code') not found — VS Code themes will be skipped"
+    python3 "$DOTFILES/themeforge/forge.py" install all && ok "themes built + installed"
+else
+    warn "python3 >= 3.11 required for themeforge — skipping"
+fi
+# hand-written parts that live in this repo and are linked, not generated
+mkdir -p "$CFG/hyde/wallbash/always"
+link "$DOTFILES/.config/hyde/wallbash/always/themeforge-nvim.dcol" "$CFG/hyde/wallbash/always/themeforge-nvim.dcol"
+mkdir -p "$CFG/tmux"   # tmux sources ~/.config/tmux/theme.conf (written on theme switch)
+if [ -r "$HOME/.local/state/hyde/staterc" ] && ! grep -q '^enableWallDcol="0"' "$HOME/.local/state/hyde/staterc"; then
+    warn "wallbash mode is not 'theme' — HyDE will ignore Glass/BlackArch's own colours."
+    warn "  fix: sed -i 's/^enableWallDcol=.*/enableWallDcol=\"0\"/' ~/.local/state/hyde/staterc   (then pick the theme)"
+fi
+
 # ── Post-install ───────────────────────────────────────────────────────────
 printf "\n${GREEN}${BOLD}Done.${NC}\n"
 printf "\nNext steps:\n"
 printf "  1. hyprctl reload\n"
-printf "  2. Super+Shift+T  → pick a theme\n"
-printf "  3. Add wallpapers to ~/.config/hyde/themes/<Theme>/wallpapers/\n"
-printf "     then: ln -sf <wallpaper> ~/.config/hyde/themes/<Theme>/wall.set\n"
+printf "  2. Super+Shift+T  → pick Glass or BlackArch (wallbash mode must be \"theme\")\n"
+printf "  3. Glass/BlackArch wallpapers are generated; other themes: add wallpapers (see wallpapers.md)\n"
 printf "  4. Install tmux plugins: tmux then prefix + I\n"
 printf "  5. Firefox: install Tree Style Tab, restart Firefox\n"
 printf "     paste tst.css from dotfiles/.config/firefox/tst.css into TST prefs\n\n"

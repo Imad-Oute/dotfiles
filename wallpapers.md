@@ -46,6 +46,18 @@ Or browse directly: `https://wallhaven.cc/w/<ID>`
 | 9d7j8k | https://wallhaven.cc/w/9d7j8k |
 | kwy6ed | https://wallhaven.cc/w/kwy6ed |
 
+## Glass
+
+Generated (not downloaded): `themeforge/wallpapers.sh glass <dir>` — soft blurred colour meshes via ImageMagick, run
+automatically by `install.sh`. Files: `glass_dark.png` (default desktop), `glass_night.png` (lockscreen),
+`glass_light.png`, `glass_vivid.png`.
+
+## BlackArch
+
+Generated: `themeforge/wallpapers.sh blackarch <dir>` — black with a faint Arch-blue radial glow, a dim wordmark for the
+lockscreen (needs the Inter font; falls back to the glow), and a pure-black void.
+Files: `blackarch_glow.png` (desktop), `blackarch_word.png` (lockscreen), `blackarch_void.png`.
+
 ## Entropy
 
 | ID | URL |
