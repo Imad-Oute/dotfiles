@@ -94,7 +94,12 @@ link "$DOTFILES/.config/dunst"           "$CFG/dunst"
 
 # ── Firefox Dev Edition ────────────────────────────────────────────────────
 hdr "Firefox Dev Edition"
-FFDEV=$(find "$HOME/.mozilla/firefox" -maxdepth 1 -name "*.dev-edition-default" -type d | head -1)
+FFDEV=""
+for firefox_root in "${XDG_CONFIG_HOME:-$HOME/.config}/mozilla/firefox" "$HOME/.mozilla/firefox"; do
+    [ -d "$firefox_root" ] || continue
+    FFDEV=$(find "$firefox_root" -maxdepth 1 -name "*.dev-edition-default" -type d -print -quit)
+    [ -n "$FFDEV" ] && break
+done
 if [ -n "$FFDEV" ]; then
     mkdir -p "$FFDEV/chrome"
     link "$DOTFILES/.config/firefox/chrome/userChrome.css"  "$FFDEV/chrome/userChrome.css"

@@ -1,3 +1,6 @@
+-- Make Mason tools available before lazy-loaded plugins run health checks.
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
+
 local opt = vim.opt
 
 -- Scroll context
@@ -25,8 +28,8 @@ opt.foldcolumn = "1"
 
 -- Better split characters
 opt.fillchars = {
-  foldopen = "",
-  foldclose = "",
+  foldopen = "▾",
+  foldclose = "▸",
   fold = " ",
   foldsep = " ",
   diff = "╱",
@@ -49,9 +52,9 @@ vim.diagnostic.config({
   },
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = " ",
-      [vim.diagnostic.severity.WARN] = " ",
-      [vim.diagnostic.severity.INFO] = " ",
+      [vim.diagnostic.severity.ERROR] = "E",
+      [vim.diagnostic.severity.WARN] = "W",
+      [vim.diagnostic.severity.INFO] = "I",
       [vim.diagnostic.severity.HINT] = "󰠠 ",
     },
   },

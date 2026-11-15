@@ -5,7 +5,7 @@
 -- <leader>d  → Debug (DAP: breakpoints, run, step)
 -- <leader>t  → Test (neotest: nearest, file, all)
 -- <leader>x  → Diagnostics (trouble, quickfix)
--- <leader>h  → Harpoon marks + Git hunks (LazyVim namespace)
+-- <leader>h / H → Harpoon menu / add; <leader>gh → Git hunks
 -- <leader>u  → UI Toggles
 -- <leader>w  → Windows
 -- <leader>b  → Buffers
@@ -57,10 +57,19 @@ map("n", "<leader>Y", '"+Y', { desc = "Yank line to clipboard" })
 map("n", "<leader>rw", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], { desc = "Rename word in file" })
 
 -- Make current file executable
-map("n", "<leader>cx", "<cmd>!chmod +x %<CR>", { desc = "Chmod +x" })
+map("n", "<leader>cx", function()
+  local path = vim.api.nvim_buf_get_name(0)
+  local stat = vim.uv.fs_stat(path)
+  if not stat or stat.type ~= "file" then
+    vim.notify("Save a file before making it executable", vim.log.levels.WARN)
+    return
+  end
+  local ok, err = vim.uv.fs_chmod(path, bit.bor(stat.mode, 73))
+  vim.notify(ok and "File is executable" or tostring(err), ok and vim.log.levels.INFO or vim.log.levels.ERROR)
+end, { desc = "Make file executable" })
 
 -- ─── Harpoon (extends LazyVim harpoon2 extra defaults) ───────────────────────
--- LazyVim extra sets: <leader>H (menu), <leader>ha (add), <leader>h1-5 (jump)
+-- LazyVim extra sets: <leader>h (menu), <leader>H (add), <leader>1-9 (jump)
 -- These Alt shortcuts give instant 1-key jumping:
 -- Harpoon/undotree/fugitive are disabled in VS Code by the vscode extra,
 -- so only define their keymaps in real Neovim.
@@ -69,8 +78,8 @@ if not vim.g.vscode then
   map("n", "<M-2>", function() require("harpoon"):list():select(2) end, { desc = "Harpoon mark 2" })
   map("n", "<M-3>", function() require("harpoon"):list():select(3) end, { desc = "Harpoon mark 3" })
   map("n", "<M-4>", function() require("harpoon"):list():select(4) end, { desc = "Harpoon mark 4" })
-  map("n", "[H", function() require("harpoon"):list():prev() end, { desc = "Harpoon prev" })
-  map("n", "]H", function() require("harpoon"):list():next() end, { desc = "Harpoon next" })
+  map("n", "[m", function() require("harpoon"):list():prev() end, { desc = "Harpoon prev" })
+  map("n", "]m", function() require("harpoon"):list():next() end, { desc = "Harpoon next" })
 end
 
 -- ─── Quickfix / Location list ────────────────────────────────────────────────
@@ -90,16 +99,6 @@ map("n", "<C-Down>", "<cmd>resize -2<CR>", { desc = "Shrink split down" })
 map("n", "<C-Right>", "<cmd>vertical resize +2<CR>", { desc = "Grow split right" })
 map("n", "<C-Left>", "<cmd>vertical resize -2<CR>", { desc = "Shrink split left" })
 
-if not vim.g.vscode then
-  -- ─── Undotree ──────────────────────────────────────────────────────────────
-  map("n", "<leader>uu", "<cmd>UndotreeToggle<CR>", { desc = "Undo tree" })
-
-  -- ─── Fugitive ──────────────────────────────────────────────────────────────
-  map("n", "<leader>gf", "<cmd>Git<CR>", { desc = "Git fugitive" })
-  map("n", "<leader>gd", "<cmd>Gdiffsplit<CR>", { desc = "Git diff split" })
-  map("n", "<leader>gL", "<cmd>0Gclog<CR>", { desc = "Git file history" })
-end
-
 -- ─── Fold ────────────────────────────────────────────────────────────────────
 -- Use ufo if it's installed, otherwise fall back to the built-in fold commands.
 map("n", "zR", function()
@@ -110,3 +109,7 @@ map("n", "zM", function()
   local ok, ufo = pcall(require, "ufo")
   if ok then ufo.closeAllFolds() else vim.cmd("normal! zM") end
 end, { desc = "Close all folds" })
+
+if not vim.g.vscode then
+  require("config.keymap_catalog").setup()
+end

@@ -337,7 +337,7 @@ def install(slug: str) -> None:
     live = THEMES_LIVE / m["name"]
     # HyDE enumerates themes and deploys *.theme with `find -H -type d|f`; -H only follows the ROOT argument,
     # never symlinks inside it. So the theme dir must be a REAL dir holding REAL copies of every
-    # *.theme / theme.dcol / kvantum file. Only bulky or binary things (wallpapers, gtk) are symlinked.
+    # *.theme / theme.dcol / kvantum file and wallpaper. GTK assets may be symlinked.
     if live.is_symlink():
         live.unlink()
     live.mkdir(parents=True, exist_ok=True)
@@ -361,7 +361,7 @@ def install(slug: str) -> None:
     if (out / "kvantum").is_dir():
         shutil.copytree(out / "kvantum", live / "kvantum")
     # wallpapers/ is a REAL directory so wallpapers you add (and HyDE's Super+Shift+W selector, which lists the
-    # theme's wallpapers/ dir) live next to the generated ones. Generated files are symlinked in, never overwriting
+    # theme's wallpapers/ dir) live next to the generated ones. Generated files are copied in, never overwriting
     # a real file of the same name; nothing else in there is ever removed.
     wdir = live / "wallpapers"
     if wdir.is_symlink():
@@ -373,7 +373,7 @@ def install(slug: str) -> None:
             if dst.is_symlink():
                 dst.unlink()
             if not dst.exists():
-                dst.symlink_to(g)
+                shutil.copy2(g, dst)
     for name, key in (("wall.set", "wall"), ("wall.hyprlock.png", "lock")):
         target = keep.get(name) or wdir / m[key]
         if not target.exists() and key == "lock":

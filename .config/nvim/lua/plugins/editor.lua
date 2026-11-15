@@ -18,8 +18,8 @@ return {
     "stevearc/aerial.nvim",
     keys = {
       { "<leader>a", "<cmd>AerialToggle!<CR>", desc = "Aerial outline" },
-      { "{", "<cmd>AerialPrev<CR>", desc = "Aerial prev symbol" },
-      { "}", "<cmd>AerialNext<CR>", desc = "Aerial next symbol" },
+      { "[s", "<cmd>AerialPrev<CR>", desc = "Aerial prev symbol" },
+      { "]s", "<cmd>AerialNext<CR>", desc = "Aerial next symbol" },
     },
     opts = {
       layout = { min_width = 28 },
@@ -54,6 +54,8 @@ return {
   -- Highlight and search word under cursor
   {
     "RRethy/vim-illuminate",
+    event = "LazyFile",
+    config = function(_, opts) require("illuminate").configure(opts) end,
     opts = {
       delay = 200,
       large_file_cutoff = 2000,

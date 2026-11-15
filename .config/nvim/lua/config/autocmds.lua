@@ -17,22 +17,11 @@ autocmd("FileType", {
   pattern = {
     "help", "man", "qf", "notify", "checkhealth",
     "dap-float", "dapui_*", "neotest-*", "aerial",
-    "fugitive", "git", "gitcommit",
+    "fugitive", "git",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
     vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = event.buf, silent = true })
-  end,
-})
-
--- Strip trailing whitespace on save (for filetypes without a formatter)
-autocmd("BufWritePre", {
-  group = augroup("strip_trailing_whitespace", { clear = true }),
-  pattern = { "*.md", "*.txt", "*.conf" },
-  callback = function()
-    local cursor = vim.api.nvim_win_get_cursor(0)
-    vim.cmd([[%s/\s\+$//e]])
-    vim.api.nvim_win_set_cursor(0, cursor)
   end,
 })
 

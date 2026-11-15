@@ -1,136 +1,126 @@
-# 08 · Neovim / LazyVim (editor)
+# Neovim / LazyVim
 
-Neovim is the editor, configured as a **LazyVim** distribution — meaning you don't
-configure Neovim from scratch; you extend a curated base of plugins and defaults.
-The config also runs as the backend for the **VS Code Neovim** extension, so it's
-written to behave correctly in both real Neovim and inside VS Code.
+The live config `~/.config/nvim` points to `~/dotfiles/.config/nvim`.
+Leader is **Space**. Local leader is **backslash**.
 
-Directory: `.config/nvim/` (symlinked to `~/.config/nvim/`).
+## Finding every keybinding
 
-## Layout
+- Press **Space** and wait for which-key to show available groups.
+- Press **Space sk**, or run `:Keymaps`, to search active mappings.
+- Read the [generated keymap catalog](neovim-keymaps.md) for the current global mapping inventory.
+- Run `:KeymapsExport` to refresh that catalog. An optional filename exports elsewhere.
+- Run it inside a source buffer after LSP attaches to include that buffer's LSP mappings.
+- Use `:verbose nmap <key>` (or `imap`, `xmap`, `tmap`) to see what owns a binding.
 
-```
-.config/nvim/
-├── init.lua                 # entrypoint → bootstraps lazy.nvim
-├── lua/config/
-│   ├── lazy.lua             # plugin-manager bootstrap + LazyVim import
-│   ├── options.lua          # ✅ editor options (scrolloff, folds, diagnostics)
-│   ├── keymaps.lua          # ✅ custom keymaps (the grammar below)
-│   └── autocmds.lua         # ✅ autocommands
-├── lua/plugins/             # ✅ one file per plugin/area, auto-loaded
-│   ├── theme.lua            # Catppuccin Mocha, transparent
-│   ├── git.lua              # fugitive + gitsigns
-│   ├── editor.lua           # undotree, aerial outline
-│   ├── dap.lua              # debugging (JS/TS adapter)
-│   ├── snacks.lua           # floating terminal, zen mode (skipped in VS Code)
-│   ├── neo-tree.lua         # file tree (shows hidden files)
-│   ├── tmux-navigator.lua   # Ctrl+hjkl across nvim splits + tmux panes
-│   └── render-markdown.lua  # pretty markdown rendering
-├── lazy-lock.json           # ✅ plugin version lockfile — COMMIT THIS
-└── lazyvim.json             # which LazyVim "extras" are enabled
-```
+The catalog reads the actual Neovim mapping tables, including lazy plugin triggers.
+Plugin windows, completion menus, attached language servers, and filetypes can add
+local mappings; inspect/export in that context. `:help index` covers built-in Vim
+commands that are not mappings. VS Code has a different active mapping set.
 
-Each file in `lua/plugins/` returns a lazy.nvim spec; LazyVim auto-loads them all.
-To add a plugin, drop a new file there.
+## Keybinding grammar
 
-## The keymap grammar
-
-`keymaps.lua` opens with a deliberate, memorable namespace scheme. `<leader>` is
-Space. Learn the *prefix*, and the rest is discoverable:
-
-| Prefix | Domain |
+| Prefix | Purpose |
 |---|---|
-| `<leader>f` | **Find** — files, grep, recent, buffers |
-| `<leader>g` | **Git** — lazygit, blame, diff, hunks |
-| `<leader>c` | **Code** — LSP actions, rename, format |
-| `<leader>d` | **Debug** — DAP breakpoints, run, step |
-| `<leader>t` | **Test** — neotest nearest/file/all |
-| `<leader>x` | **Diagnostics** — trouble, quickfix |
-| `<leader>h` | **Harpoon** marks + git hunks |
-| `<leader>u` | **UI** toggles |
-| `<leader>w` / `b` / `q` | Windows / Buffers / Quit-Session |
-| `<M-1..4>` | Harpoon fast-jump (Alt+number) |
-| `]` / `[` | Next / prev: buffer, hunk, diagnostic, quickfix |
+| `Space f` | Files and terminals |
+| `Space s` | Search, symbols, help, keymaps |
+| `Space g` | Git tools |
+| `Space gh` | Git hunks (LazyVim defaults) |
+| `Space c` | Code actions, rename, formatting |
+| `Space d` | Debugger |
+| `Space t` | Tests |
+| `Space x` | Diagnostics, trouble, lists |
+| `Space u` | UI toggles |
+| `Space w` | Windows |
+| `Space b` | Buffers |
+| `Space q` | Quit and sessions |
+| `Space h` / `Space H` | Harpoon menu / add file |
+| `Space 1` … `Space 9` | Jump to Harpoon file |
+| `[` / `]` | Previous / next item |
 
-### Notable custom maps
+Keep plugin keys in their plugin spec; `lua/config/keymaps.lua` owns general editor
+motions. Prefer extending LazyVim defaults over duplicating them in both places.
 
-```lua
-map("i", "jk", "<Esc>")                 -- exit insert without reaching for Esc
-map("n", "<C-d>", "<C-d>zz")            -- half-page jumps stay centered
-map("n", "n", "nzzzv")                  -- search results stay centered
-map("v", "J", ":m '>+1<CR>gv=gv")       -- move selected lines down
-map("x", "p", '"_dP')                   -- paste over selection without clobbering register
-map({"n","v"}, "<leader>y", '"+y')      -- yank to system clipboard
-map("n", "<leader>rw", ...)             -- rename word-under-cursor throughout file
-map("n", "<leader>cx", "<cmd>!chmod +x %<CR>")  -- make current file executable
-```
+## Daily shortcuts
 
-## The VS Code dual-mode (important)
+| Keys | Action |
+|---|---|
+| `jk` in insert mode | Escape |
+| `Ctrl h/j/k/l` | Move between Neovim splits and tmux panes |
+| `Space wp` | Previous tmux pane |
+| `Ctrl` + arrow | Resize split |
+| `Space we` | Equalize splits |
+| `Ctrl d/u` | Half page down/up, centered |
+| `n` / `N` | Next/previous search match, centered |
+| `J` / `K` in visual mode | Move selected lines down/up |
+| `p` in visual mode | Paste while preserving the yank register |
+| `Space y` / `Space Y` | Copy selection/motion or line to clipboard |
+| `Space D` | Delete into the black-hole register |
+| `Space rw` | Prepare whole-file word substitution; review before Enter |
+| `Space cr` | LSP symbol rename (LazyVim) |
+| `Space cx` | Make saved file executable; filenames with spaces are safe |
+| `Space uu` | Undo history |
+| `Space a` | Symbol outline |
+| `[s` / `]s` | Previous/next outline symbol (replaces Vim spelling navigation) |
+| `{` / `}` | Built-in paragraph motions |
+| `Alt 1` … `Alt 4` | Harpoon jump aliases |
+| `[m` / `]m` | Harpoon previous/next (replaces Vim method navigation) |
+| `[h` / `]h`, `[H` / `]H` | Previous/next, first/last Git hunk |
+| `Space ghs` / `Space ghr` | Stage/reset hunk |
+| `Space ghS` / `Space ghR` | Stage/reset entire buffer |
+| `Space ghp` / `Space ghb` | Preview hunk / blame line |
+| `Space gF` | Fugitive status/staging |
+| `Space gd` | Fugitive diff split |
+| `Space gL` | Fugitive file history |
+| `Space gW` / `Space gO` | Write to index / restore working file from index |
+| `Ctrl` + backslash | Toggle terminal (normal and terminal modes) |
+| `Space ft` | Open terminal |
+| `Space z` / `Space Z` | Zen / zoom |
+| `Space .` / `Space S` | Scratch / select scratch |
+| `Space un` / `Space n` | Dismiss notifications / history |
 
-This config is written to run under the **VS Code Neovim** extension as well as in a
-real terminal. The pattern throughout:
+Git reset and restore bindings discard changes: use deliberately. `Space gf` keeps
+LazyVim's current-file history picker. Hunk mappings stay buffer-local in the `gh` group, so
+opening a tracked file no longer replaces unrelated global Git commands.
 
-```lua
-if not vim.g.vscode then
-  -- terminal-only keymaps/plugins (harpoon, undotree, fugitive, floating terminal)
-end
-```
+## Config layout
 
-**Why:** in VS Code, the editor UI, file tree, terminal, and git are provided by VS
-Code itself. Re-binding those keys or enabling Neovim's own UI plugins (snacks
-notifier, indent guides, neo-tree) would conflict. So anything UI-ish is guarded
-behind `not vim.g.vscode`. `vim.g.vscode` is `true` only when running inside the
-extension.
+- `init.lua` → `lua/config/lazy.lua`: plugin bootstrap and imports.
+- `lua/config/options.lua`: options, diagnostics, Mason tool PATH.
+- `lua/config/autocmds.lua`: buffer/window behavior.
+- `lua/config/keymaps.lua`: general editor shortcuts.
+- `lua/config/keymap_catalog.lua`: live keymap search/export commands.
+- `lua/plugins/`: custom plugin specs and overrides.
+- `lazyvim.json`: enabled extras (languages, debugger, tests, AI, VS Code).
+- `lazy-lock.json`: pinned versions; commit after deliberately updating/testing.
+- `colors/glass.lua`, `lua/themeforge/`: active theme generated by Themeforge.
+  Catppuccin stays installed as a fallback.
 
-This is why `snacks.lua` early-returns `{}` under VS Code, and why harpoon/undotree/
-fugitive keymaps are gated.
+The TypeScript extra owns JS/TS debug adapter installation and launch defaults.
+`dap.lua` customizes the UI and adds Jest/browser launch entries without replacing
+LazyVim's DAP setup, signs, Mason integration, or launch.json support.
 
-## options.lua highlights
+The VS Code extra filters plugins. Custom UI mappings are guarded by
+`not vim.g.vscode`; the tmux plugin is skipped there. General editing motions are
+shared. Check bindings from inside VS Code to see extension-specific overrides.
 
-```lua
-opt.scrolloff = 8                       -- keep 8 lines of context around cursor
-opt.updatetime = 50                     -- snappy CursorHold (gitsigns, diagnostics)
-opt.timeoutlen = 300                    -- which-key pops fast
-opt.colorcolumn = "80"                  -- the 80-char guide
-opt.foldmethod = "expr"                 -- treesitter-driven folds, all open by default
-opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
-opt.list = true                         -- show tabs/trailing-space/nbsp
-```
+Markdown whitespace is preserved on save because two trailing spaces can be a
+hard line break. Git commit buffers retain their normal `q` behavior.
 
-Diagnostics are customized with rounded float borders, severity sorting, and Nerd
-Font sign icons (` `, ` `, …).
+## Maintenance and diagnostics
 
-## Plugins, by file
+Run `:checkhealth`, `:Lazy`, `:Mason`, `:LspInfo`, and `:messages` when diagnosing
+issues. Run health checks in a real terminal: headless sessions cannot initialize
+all UI integrations or detect terminal image support correctly.
 
-- **theme.lua** — Catppuccin Mocha, `transparent_background = true` so the editor
-  shows the terminal's translucency. Integrations for telescope/treesitter/notify.
-- **git.lua** — `vim-fugitive` (interactive staging `:Git`, diff, file history) +
-  enhanced `gitsigns`.
-- **editor.lua** — `undotree` (visual undo history, `<leader>uu`), `aerial`
-  (symbol outline, `<leader>a`).
-- **dap.lua** — debugging. JS/TS adapter auto-installed via Mason; Python via the
-  LazyVim python extra; Rust via rustaceanvim.
-- **snacks.lua** — floating terminal (`Ctrl+\` or `<leader>ft`), zen mode. Disabled
-  under VS Code.
-- **neo-tree.lua** — file tree that shows hidden files and follows the active file.
-- **tmux-navigator.lua** — the `Ctrl+hjkl` seamless nav (pairs with the tmux plugin
-  in [07-tmux.md](07-tmux.md)).
-- **render-markdown.lua** — in-buffer markdown prettifying.
+Copilot logs recorded `NotSignedIn`. Use `:LspCopilotSignIn` for the native Copilot
+extra; completing account authorization requires you. `:Copilot` controls the
+separate Copilot plugin used by CopilotChat. Keep AI extras only if you use them.
 
-## lazy-lock.json — commit it
+Optional health checks cover image previews (Ghostscript for PDFs, TeX for math,
+Mermaid CLI for diagrams) and Node/Python/Ruby/Perl remote-plugin providers. These
+are not needed by every configured plugin; missing optional tools are not startup
+config failures. Mason's tree-sitter CLI is already installed and is now available
+before lazy-loaded Mason initializes.
 
-`lazy-lock.json` pins every plugin to an exact commit. **Commit it** so a fresh
-machine installs the exact same versions you've tested. To update plugins: `:Lazy
-update`, verify nothing broke, then commit the new lockfile.
-
-## Common tasks
-
-**"Add a plugin."** New file in `lua/plugins/`, return its spec, `:Lazy sync`.
-
-**"A keymap works in terminal nvim but not VS Code."** It's probably (correctly)
-gated behind `if not vim.g.vscode`. That's intentional for UI plugins.
-
-**"Sync plugin versions to another machine."** Commit `lazy-lock.json`, pull on the
-other machine, `:Lazy restore`.
-
-🔗 LazyVim: https://lazyvim.org/
+To update plugins, use `:Lazy update`, check your editing workflows, and commit
+`lazy-lock.json`. To reproduce pinned versions, use `:Lazy restore`.

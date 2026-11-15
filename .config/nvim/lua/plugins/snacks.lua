@@ -82,7 +82,7 @@ return {
 
     keys = {
       -- Terminal
-      { "<C-\\>", function() Snacks.terminal.toggle() end, desc = "Toggle terminal", mode = { "n", "t" } },
+      { [[<C-\>]], function() Snacks.terminal.toggle() end, desc = "Toggle terminal", mode = { "n", "t" } },
       { "<leader>ft", function() Snacks.terminal() end, desc = "Float terminal" },
 
       -- Zen mode
@@ -94,8 +94,6 @@ return {
       { "<leader>S", function() Snacks.scratch.select() end, desc = "Select scratch" },
 
       -- Notifications
-      { "<leader>nd", function() Snacks.notifier.hide() end, desc = "Dismiss notifications" },
-      { "<leader>nh", function() Snacks.notifier.show_history() end, desc = "Notification history" },
 
       -- Git (lazygit via snacks — LazyVim sets <leader>gg already)
       { "<leader>gl", function() Snacks.lazygit.log_file() end, desc = "Lazygit file log" },

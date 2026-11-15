@@ -9,7 +9,7 @@
 corner_radius = 10
 icon_corner_radius = 10
 dmenu = /usr/bin/rofi -config notification -dmenu -p dunst:
-icon_theme = "Tela-circle-dracula,Tela-circle-grey,Tela-circle-green,Gruvbox-Plus-Dark,Tela-circle-blue,Wallbash-Icon,Nordzy,Tela-circle-pink,Tela-circle-dracula,Tela-circle-black,Tela-circle-yellow,Tela-circle-purple"
+icon_theme = "Tela-circle-dracula,Tela-circle-pink,Gruvbox-Plus-Dark,Tela-circle-blue,Wallbash-Icon,Tela-circle-green,Tela-circle-grey,Nordzy,Tela-circle-black,Tela-circle-purple,Tela-circle-yellow,Tela-circle-dracula"
 
 
 # [Type-1]
@@ -18,7 +18,7 @@ icon_theme = "Tela-circle-dracula,Tela-circle-grey,Tela-circle-green,Gruvbox-Plu
 
 # [Type-2]
 # appname = "HyDE Notify"
-# format = "<span size="250%">%s</span>\n%b"
+# format = "<span size='250%%'>%s</span>\n%b"
 
 [Type-1]
 appname = "HyDE Alert"
@@ -26,7 +26,7 @@ format = "<b>%s</b>"
 
 [Type-2]
 appname = "HyDE Notify"
-format = "<span size="250%">%s</span>\n%b"
+format = "<span size='250%%'>%s</span>\n%b"
 
 
 
@@ -110,7 +110,7 @@ new_icon = skype
 # [notification]
 # font = "mononoki Nerd Font"
 # font_size = 10
-font = Mononoki Nerd Font Mono Cantarell_SIZE,JetBrainsMono Nerd Font Cantarell_SIZE
+font = Inter 10,JetBrainsMono Nerd Font 10
 
 dmenu = /usr/bin/rofi -config notification -dmenu -p dunst:
 
@@ -120,15 +120,15 @@ dmenu = /usr/bin/rofi -config notification -dmenu -p dunst:
 
 
 [urgency_low]
-    background = "#A3866580"
-    foreground = "#FFE7CCE6"
-    frame_color = "#A3866503"
+    background = "#4DB5E880"
+    foreground = "#DFF2FBE6"
+    frame_color = "#4DB5E803"
     icon = "/home/sog/.local/share/icons/Wallbash-Icon/hyprdots.svg"
     timeout = 5
 
 [urgency_normal]
-    background = "#6B543A80"
-    foreground = "#FFE7CCE6"
-    frame_color = "#6B543A03"
+    background = "#0C4C6B80"
+    foreground = "#DFF2FBE6"
+    frame_color = "#0C4C6B03"
     icon = "/home/sog/.local/share/icons/Wallbash-Icon/hyprdots.svg"
     timeout = 5
